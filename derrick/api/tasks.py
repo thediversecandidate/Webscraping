@@ -1,0 +1,18 @@
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
+
+
+@periodic_task(
+    run_every=(crontab(minute='*/1')),
+    name="scrape_data_from_site",
+    ignore_result=True
+)
+def scrape_data_from_site():
+    """
+    Saves latest image from Flickr
+    """
+    # save_latest_flickr_image()
+    logger.info("Saved image from Flickr")

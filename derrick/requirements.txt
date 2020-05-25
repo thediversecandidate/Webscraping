@@ -1,0 +1,14 @@
+amqp==1.4.9
+anyjson==0.3.3
+asgiref==3.2.7
+billiard==3.3.0.23
+celery==3.1.18
+Django==3.0.6
+django-background-tasks==1.2.5
+django-compat==1.0.15
+django-crontab==0.7.1
+kombu==3.0.37
+pytz==2020.1
+redis==2.10.3
+six==1.15.0
+sqlparse==0.3.1
