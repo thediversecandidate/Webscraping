@@ -13,6 +13,7 @@ django-compat==1.0.15
 django-crontab==0.7.1
 idna==2.9
 kombu==3.0.37
+psycopg2-binary==2.8.5
 pytz==2020.1
 redis==2.10.3
 requests==2.23.0
