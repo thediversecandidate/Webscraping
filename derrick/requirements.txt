@@ -11,6 +11,7 @@ Django==3.0.6
 django-background-tasks==1.2.5
 django-compat==1.0.15
 django-crontab==0.7.1
+djangorestframework==3.11.0
 idna==2.9
 kombu==3.0.37
 psycopg2-binary==2.8.5
