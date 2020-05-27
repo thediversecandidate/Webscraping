@@ -25,7 +25,7 @@ SECRET_KEY = '-0!1_c201%6pn^@5&4q$wjov0n#w-umwha9fpb+1ef_lpli2n4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '54.159.0.113']
 
 
 # Application definition
@@ -88,8 +88,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'derrick',
-        'USER': 'raunaq',
+        'USER': 'derrick',
         'HOST': 'localhost',
+	'PASSWORD': 'derrick',
         'PORT': '5432'
     }
 }
@@ -146,46 +147,5 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/request.log',
-            'formatter': 'verbose',
-        },
-        'debug_file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/debug.log',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'background_task': {
-            'handlers': ['debug_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'api': {
-            'handlers': ['debug_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
