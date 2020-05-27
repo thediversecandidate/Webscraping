@@ -17,8 +17,14 @@ class ArticleViewSet(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        data = list(Article.objects.values())
-        return JsonResponse(data, safe=False)
+
+        articles = Article.objects.all()
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data)
+
+
+        # data = list(Article.objects.values())
+        # return JsonResponse(data, safe=False)
 
 
 
