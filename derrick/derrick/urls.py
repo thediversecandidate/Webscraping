@@ -25,7 +25,6 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('hello/', views.HelloView.as_view(), name='hello'),
-    path('articles/', views.ArticleViewSet.as_view(), name='articles'),
+    path('articles/<page_num>/', views.get_articles_by_page, name='articles-by-page'),
 
 ]
