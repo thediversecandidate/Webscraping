@@ -19,12 +19,13 @@ from rest_framework import routers
 from api import views
 
 
-router = routers.DefaultRouter()
-router.register(r'posts', views.ArticleViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'posts', views.ArticleViewSet, basename='ArticleViewSet')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', include(router.urls)),
+    path('hello/', views.HelloView.as_view(), name='hello'),
+    path('articles/', views.ArticleViewSet.as_view(), name='articles'),
 
 ]
