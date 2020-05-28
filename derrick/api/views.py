@@ -14,6 +14,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 @api_view(('GET',))
+def index(request):
+    return Response('Hello world!')
+
+@api_view(('GET',))
 @permission_classes([IsAuthenticated])
 def get_articles_by_page(request, page_num):
 
@@ -30,11 +34,20 @@ def get_articles_by_page(request, page_num):
     serializer = ArticleSerializer(articles, many=True)
     return Response(serializer.data)
 
+@api_view(('GET',))
+@permission_classes([IsAuthenticated])
+def get_articles_by_keyword(request, keyword):
 
+    keyword = str(keyword)
 
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
+    response = []
 
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+    queryset = Article.objects.all()
+    for q in queryset:
+        if keyword in q.title:
+            response.append(q)
+
+    print(len(response))
+    serializer = ArticleSerializer(response, many=True)
+    return Response(serializer.data)
+

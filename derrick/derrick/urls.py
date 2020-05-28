@@ -25,6 +25,8 @@ from api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('articles/<page_num>/', views.get_articles_by_page, name='articles-by-page'),
+    path('', views.index, name='index'),
+    path('articles/page/<page_num>/', views.get_articles_by_page, name='articles-by-page'),
+    path('articles/keyword/<keyword>', views.get_articles_by_keyword, name='get_articles_by_keyword'),
 
 ]
