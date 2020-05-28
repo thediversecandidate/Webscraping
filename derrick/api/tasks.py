@@ -18,3 +18,12 @@ def scrape_data_from_site():
     # save_latest_flickr_image()
     scraper_datacenter()
     logger.info("Scraping task started...")
+
+
+@periodic_task(
+    run_every=(crontab()),
+    name="heartbeat",
+    ignore_result=True
+)
+def celery_heartbeat():
+    logger.info("Heartbeat sent.")
