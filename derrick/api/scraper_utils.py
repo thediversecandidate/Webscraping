@@ -1,11 +1,39 @@
 import time
 import requests
-from bs4 import BeautifulSoup as bs4
+import bs4
 
 from api.models import Article
 
 def get_article_body_from_url(article_url):
-	return("This is the body of the article")
+
+	print("waiting for 30 Seconds before starting WebPage Scraper")
+	time.sleep(30)
+	try:
+
+		r = requests.get(article_url)
+		soup = bs4.BeautifulSoup(r.text)
+
+		body = soup.find('div', {'class': 'article-content'})
+
+		paras = []
+
+		for i, c in enumerate(body.contents):
+			if (c.__class__ == bs4.element.Tag):
+				if (c.attrs == {}):
+					if len(c.text.strip()) > 0:
+						paras.append(c.text.strip())
+
+		article_body = '\n'.join(paras)
+
+		return article_body
+
+	except:
+
+		print("Some Error occurred while Parsing Webpage")
+		return("Error occured while parsing the Body of the Webpage.")
+
+
+
 
 def extract_links_from_homepage():
 	
@@ -13,7 +41,7 @@ def extract_links_from_homepage():
 
 	r = requests.get(base_url)
 
-	soup = bs4(r.text)
+	soup = bs4.BeautifulSoup(r.text)
 	titles = soup.findAll('div', {'class' : 'title'})
 
 	data = []
