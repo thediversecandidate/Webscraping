@@ -11,10 +11,15 @@ Django==3.0.6
 django-background-tasks==1.2.5
 django-compat==1.0.15
 django-crontab==0.7.1
+django-elasticsearch-dsl==7.1.1
 djangorestframework==3.11.0
+elasticsearch==7.7.1
+elasticsearch-dsl==7.2.1
+gunicorn==20.0.4
 idna==2.9
 kombu==3.0.37
 psycopg2-binary==2.8.5
+python-dateutil==2.8.1
 pytz==2020.1
 redis==2.10.3
 requests==2.23.0
