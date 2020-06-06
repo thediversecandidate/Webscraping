@@ -42,7 +42,16 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'rest_framework.authtoken',
+
+    'django_elasticsearch_dsl',
+
 ]
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts' : 'localhost:9200'
+    },
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
