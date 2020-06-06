@@ -23,7 +23,7 @@ def get_article_body_from_url(article_url):
 					if len(c.text.strip()) > 0:
 						paras.append(c.text.strip())
 
-		article_body = '\n'.join(paras)
+		article_body = '\n\n'.join(paras)
 
 		return article_body
 
