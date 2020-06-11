@@ -13,10 +13,11 @@ from api.scraper_utils import scraper_datacenter
 )
 def scrape_data_from_site():
     """
-    Saves latest image from Flickr
+    Runs all the Scrapers
     """
     # save_latest_flickr_image()
     scraper_datacenter()
+    #scraper_start_scraping_xyz()
     logger.info("Scraping task started...")
 
 

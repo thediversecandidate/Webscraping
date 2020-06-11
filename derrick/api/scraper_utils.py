@@ -101,11 +101,3 @@ def scraper_datacenter():
 			add_record_to_db(url=article_url, title=article_title, body=article_body)
 
 
-
-
-	
-
-	
-
-
-	
