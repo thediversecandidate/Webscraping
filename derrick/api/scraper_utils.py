@@ -1,10 +1,44 @@
 import time
 import requests
 import bs4
+from collections import OrderedDict as OD
 
 from api.models import Article
 
 from django.conf import settings
+
+def get_summary_and_keywords_from_smmry_api(article_url):
+
+	print("Waiting for 5 seconds before calling SMMRY api.")
+	time.sleep(5)
+
+	try:
+
+		params = OD()
+
+		API_ENDPOINT = settings.SMMRY_API_ENDPOINT
+		params['SM_API_KEY'] = settings.SM_API_KEY
+		params['SM_LENGTH'] = settings.SMMRY_API_ENDPOINT
+		params['SM_KEYWORD_COUNT'] = settings.SM_KEYWORD_COUNT
+		params['SM_URL'] = article_url
+
+		r = requests.get(API_ENDPOINT, params=params)
+
+		data = r.json()
+
+		list_of_keywords = data.get('sm_api_keyword_array', [])
+		article_summary = data.get('sm_api_content', "Error")
+
+		response = {
+			'list_of_keywords' : list_of_keywords,
+			'article_summary' : article_summary
+		}
+
+		return response
+
+	except Exception as e:
+		print("Some exception occurred")
+		return ({})
 
 def get_article_body_from_url(article_url):
 
@@ -61,8 +95,8 @@ def extract_links_from_homepage():
 	return data
 
 
-def add_record_to_db(title, url, body):
-	new_article = Article(title=title, url=url, body=body)
+def add_record_to_db(title, url, body, article_summary, list_of_keywords):
+	new_article = Article(title=title, url=url, body=body, article_summary=article_summary, list_of_keywords=list_of_keywords)
 	new_article.save()
 
 
@@ -98,8 +132,19 @@ def scraper_datacenter():
 		if not article_url_exists_in_db(article_url):
 			# scrape and parse the article body from URL
 			article_body = get_article_body_from_url(article_url)
+			data_from_smmry_api = get_summary_and_keywords_from_smmry_api(article_url)
+
+			# Get Article Summary from SMMRY API
+			article_summary = data_from_smmry_api.get('article_summary', "")
+			
+			# Get Keywords from SMMRY API
+			list_of_keywords = ""
+
+			_keywords = data_from_smmry_api.get('list_of_keywords', [])
+			if len(_keywords) > 0:
+				list_of_keywords = " ".join([word.lower() for word in _keywords])
 
 			# Create Model and Save it to DB
-			add_record_to_db(url=article_url, title=article_title, body=article_body)
+			add_record_to_db(url=article_url, title=article_title, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
 
 
