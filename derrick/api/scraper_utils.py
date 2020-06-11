@@ -4,6 +4,8 @@ import bs4
 
 from api.models import Article
 
+from django.conf import settings
+
 def get_article_body_from_url(article_url):
 
 	print("waiting for 30 Seconds before starting WebPage Scraper")

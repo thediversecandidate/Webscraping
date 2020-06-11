@@ -8,10 +8,25 @@ from rest_framework.permissions import IsAuthenticated
 
 from api.documents import ArticleDocument
 
+from django.conf import settings
+
 
 @api_view(('GET',))
 def index(request):
     return Response('Hello world!')
+
+@api_view(('GET',))
+def test_endpoint(request):
+    
+    ans = "Failed"
+
+    try:
+        v = settings.SMMRY_API_ENDPOINT
+        ans = str(v)
+    except Exception as e:
+        raise e
+
+    return Response(ans)
 
 
 @api_view(('GET',))

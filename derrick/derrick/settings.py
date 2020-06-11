@@ -47,6 +47,14 @@ INSTALLED_APPS = [
 
 ]
 
+# SMMRY API PARAMS
+SMMRY_API_ENDPOINT = "https://api.smmry.com"
+SM_API_KEY = "545AF338C7"
+SM_LENGTH = 1 # No of sentences to summarize in
+SM_KEYWORD_COUNT = 5
+SM_URL = "" # url of webpage to summarize
+
+
 ELASTICSEARCH_DSL = {
     'default': {
         'hosts' : 'localhost:9200'
