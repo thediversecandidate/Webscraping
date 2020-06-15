@@ -31,7 +31,7 @@ Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 http://54.159.0.113/articles/page/1
 ```
 
-# Get Article by Searching for a <keyword>
+# Get Article by Searching for a keyword
 
 ```
 # Example
