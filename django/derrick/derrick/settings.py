@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-0!1_c201%6pn^@5&4q$wjov0n#w-umwha9fpb+1ef_lpli2n4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '54.159.0.113']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.234.193.247']
 
 
 # Application definition
@@ -39,13 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',
     'background_task',
-
     'api',
     'rest_framework',
     'rest_framework.authtoken',
-    'search',
+
     'django_elasticsearch_dsl',
+
 ]
+
+# SMMRY API PARAMS
+SMMRY_API_ENDPOINT = "https://api.smmry.com"
+SM_API_KEY = "545AF338C7"
+SM_LENGTH = 1 # No of sentences to summarize in
+SM_KEYWORD_COUNT = 5
+SM_URL = "" # url of webpage to summarize
+
 
 ELASTICSEARCH_DSL = {
     'default': {
