@@ -1,4 +1,4 @@
-
+import os
 import time
 import requests
 import bs4
@@ -51,44 +51,43 @@ def scrape_article_page(link):
 		return None
 
 
-if __name__ == "__main__":
 
-	f = open("article_links.txt")
-	article_urls = f.read().split('\n')
+f = open(os.path.join(os.getcwd(), "custom_crawlers", "networkworld", "article_links.txt"), "r")
+article_urls = f.read().split('\n')
 
-	seen = set()
-	i = 1
-	for article_url in article_urls:
+seen = set()
+i = 1
+for article_url in article_urls:
 
-		print("waiting for 2 secs")
-		time.sleep(2)
+	print("waiting for 2 secs")
+	time.sleep(2)
 
-		print("Processing : {}".format(article_url))
+	print("Processing : {}".format(article_url))
 
-		data = scrape_article_page(article_url)
+	data = scrape_article_page(article_url)
 
-		if data is None:
-			continue
-			print("Error for link : {}".format(article_url))
-			add_record_to_db(url=article_url, title="", body="", article_summary="", list_of_keywords="")
+	if data is None:
+		continue
+		print("Error for link : {}".format(article_url))
+		add_record_to_db(url=article_url, title="", body="", article_summary="", list_of_keywords="")
 
-		else:
-			# print(data)
+	else:
+		# print(data)
 
-			article_title = data["headline"]
-			article_body = data["article_body"]
-			article_summary = data["summary"]
-			list_of_keywords = ""
+		article_title = data["headline"]
+		article_body = data["article_body"]
+		article_summary = data["summary"]
+		list_of_keywords = ""
 
-			try:
-				new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
-				new_article.save()
+		try:
+			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
+			new_article.save()
 
-				print("{} Done".format(i))
-				i += 1
-			
-			except:
-				pass
+			print("{} Done".format(i))
+			i += 1
+		
+		except:
+			pass
 
 
 

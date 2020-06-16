@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from collections import deque
 import time
 import logging
-logging.basicConfig(filename='/Users/raunaq/Desktop/networkworld_articles.log', level=logging.INFO)
+logging.basicConfig(filename='networkworld_articles.log', level=logging.INFO)
 
 class Scraper:
     
@@ -53,7 +53,7 @@ class Scraper:
         self.scraping_complete()
 
     def append_to_file(self, data):
-        f = open("article_links.txt", "a+")
+        f = open(os.path.join(os.getcwd(), "article_links.txt"), "a+")
         f.write(data + "\n")
         f.close()
         
