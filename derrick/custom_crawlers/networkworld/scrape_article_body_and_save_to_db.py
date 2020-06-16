@@ -6,6 +6,8 @@ import bs4
 from api.scraper_utils import add_record_to_db
 from api.models import Article
 
+
+# Modify the body of code inside the 'try' block to extract relevant data from the Page Source
 def scrape_article_page(link):
 		
 	if not ("/article/" in link):

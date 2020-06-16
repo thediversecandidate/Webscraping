@@ -26,7 +26,6 @@ class Scraper:
             
             url = self.queue.popleft()
             print(url)
-#             import pdb; pdb.set_trace()
             
             if url in self.visited_links:
                 continue
@@ -52,11 +51,13 @@ class Scraper:
         
         self.scraping_complete()
 
+    # append article links to the "txt" file
     def append_to_file(self, data):
         f = open(os.path.join(os.getcwd(), "article_links.txt"), "a+")
         f.write(data + "\n")
         f.close()
         
+    # Modify the logic in the 'try' block to determine whether the page contains an article or not
     def page_is_article(self, url):
 
         try:
@@ -85,9 +86,6 @@ class Scraper:
                         if not (self.base_url in l):
                             relevant_links.append(self.base_url + l['href'])
 
-#             for i, link in enumerate(relevant_links):
-#                 print(i, link)
-#             import pdb; pdb.set_trace()
             return relevant_links
         
         except:
