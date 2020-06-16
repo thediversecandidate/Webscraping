@@ -17,6 +17,7 @@ class Scraper:
     def initialize(self):
         self.queue.append(self.base_url)
         
+    # The "Control Centre" of the class
     def start(self):
         
         # Initialize start time
