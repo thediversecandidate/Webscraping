@@ -4,18 +4,21 @@ from collections import deque
 import time
 import logging
 import os
+
 logging.basicConfig(filename='networkworld_articles.log', level=logging.INFO)
 
 class Scraper:
     
     def __init__(self):
-        self.base_url = "https://www.networkworld.com"
+        self.base_url = "https://www.datacenterknowledge.com"
         self.visited_links = set()
         self.article_urls = set()
         self.queue = deque()
         self.start_time = time.time()
         
     def initialize(self):
+        
+        self.queue.append("https://www.datacenterknowledge.com/business/zenium-founder-teams-kkr-build-hyperscale-data-centers-europe")
         self.queue.append(self.base_url)
         
     def start(self):
@@ -63,10 +66,17 @@ class Scraper:
 
         try:
 
-            split_url = url.split('/')
-            
-            if (len(split_url) >= 6) and (split_url[3] == "article"):
-                return True
+            page_source = self.get_page_source(url)
+            soup = BeautifulSoup(page_source)
+            article_div = soup.find('div', {'class' : 'article-content-wrap'})
+
+            if article_div is None:
+                return False
+
+            if len(article_div) == 0:
+                return False
+
+            return True
 
         except:
             print("\nException occured in page_is_article()")
