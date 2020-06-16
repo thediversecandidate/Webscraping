@@ -6,9 +6,9 @@
 The complete Project is built by following standard Django Conventions. The app only contains the `api` which contains all the business logic serving the REST API.
 
 - `api/views.py` contains the logic for the endpoints
-- `derrick/urls.py` contains the valid endpoints and the patterns they follow.
-- `derrick/models.py` contains the 'Article' Model definition. 
+- `api/models.py` contains the 'Article' Model definition. 
 - `api/documents.py` contains models definition for ElasticSearch api indexing
+- `derrick/urls.py` contains the valid endpoints and the patterns they follow.
 
 ## How to run
 
@@ -70,7 +70,7 @@ You can test it using Postman by adding the following key-value pair in Postman
 
 Reasons for designing such a structure : 
 
-- the all functions are modular i.e. they only perform one operation and the logic of the function can easily be modified without needed to alter the flow of the complete crawler.
+- All functions are modular i.e. they only perform one operation and the logic of the function can easily be modified without needed to alter the flow of the complete crawler.
 - there is usually a fixed pattern followed whenever trying to create a crawler for a particular website, hence the given structure.
 - Crawling for links first and then scraping allows more modularized code, hence easy to test and experiment with separately and their functionalities can be helpful for more different use cases.
 - It also allows to crawl a site while respecting ROBOTS.txt
