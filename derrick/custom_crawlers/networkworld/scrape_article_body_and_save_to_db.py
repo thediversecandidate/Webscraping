@@ -6,7 +6,7 @@ import bs4
 from api.scraper_utils import add_record_to_db
 from api.models import Article
 
-def scraper(link):
+def scrape_article_page(link):
 		
 	if not ("/article/" in link):
 		print("Invalid Link : {}".format(link))
@@ -51,42 +51,44 @@ def scraper(link):
 		return None
 
 
-f = open("network_links.txt")
-article_urls = f.read().split('\n')
+if __name__ == "__main__":
 
-seen = set()
-i = 1
-for article_url in article_urls:
+	f = open("article_links.txt")
+	article_urls = f.read().split('\n')
 
-	print("waiting for 2 secs")
-	time.sleep(2)
+	seen = set()
+	i = 1
+	for article_url in article_urls:
 
-	print("Processing : {}".format(article_url))
+		print("waiting for 2 secs")
+		time.sleep(2)
 
-	data = scraper(article_url)
+		print("Processing : {}".format(article_url))
 
-	if data is None:
-		continue
-		print("Error for link : {}".format(article_url))
-		add_record_to_db(url=article_url, title="", body="", article_summary="", list_of_keywords="")
+		data = scrape_article_page(article_url)
 
-	else:
-		# print(data)
+		if data is None:
+			continue
+			print("Error for link : {}".format(article_url))
+			add_record_to_db(url=article_url, title="", body="", article_summary="", list_of_keywords="")
 
-		article_title = data["headline"]
-		article_body = data["article_body"]
-		article_summary = data["summary"]
-		list_of_keywords = ""
+		else:
+			# print(data)
 
-		try:
-			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
-			new_article.save()
+			article_title = data["headline"]
+			article_body = data["article_body"]
+			article_summary = data["summary"]
+			list_of_keywords = ""
 
-			print("{} Done".format(i))
-			i += 1
-		
-		except:
-			pass
+			try:
+				new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
+				new_article.save()
+
+				print("{} Done".format(i))
+				i += 1
+			
+			except:
+				pass
 
 
 
