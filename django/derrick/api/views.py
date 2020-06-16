@@ -65,10 +65,10 @@ def get_articles_by_keyword(request, keyword):
 
 @api_view(('GET',))
 @permission_classes([IsAuthenticated])
-def search_articles_by_keyword(request, keyword):
+def search_articles_by_keyword(request, keyword, no_of_results):
     keyword = (str(keyword)).strip()
 
-    queryset = ArticleDocument.search().query("match", body=keyword)
+    queryset = ArticleDocument.search().query("match", body=keyword)[:int(no_of_results)]
 
     serializer = ArticleSerializer(queryset, many=True)
     return Response(serializer.data)
