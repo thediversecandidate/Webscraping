@@ -8,7 +8,7 @@ python manage.py runserver 0.0.0.0:80
 
 ## Admin Page
 ```
-http://54.159.0.113/admin
+http://34.234.193.247/admin
 username : derrick
 password : derrick  
 ```
@@ -28,14 +28,17 @@ Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 
 ```
 # Example
-http://54.159.0.113/articles/page/1
+http://34.234.193.247/articles/page/1
 ```
 
 ## Get Article by Searching for a keyword
 
 ```
+# Template
+http://34.234.193.247/articles/keyword/<keyword>/<max_number_of_results>
+
 # Example
-http://54.159.0.113/articles/keyword/Google
+http://34.234.193.247/articles/keyword/Google/25
 ```
 
 # How to Crawl a New Site
