@@ -8,7 +8,7 @@ python manage.py runserver 0.0.0.0:80
 
 ## Admin Page
 ```
-http://54.159.0.113/admin
+http://34.234.193.247/admin
 username : derrick
 password : derrick  
 ```
@@ -28,14 +28,17 @@ Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 
 ```
 # Example
-http://54.159.0.113/articles/page/1
+http://34.234.193.247/articles/page/1
 ```
 
 ## Get Article by Searching for a keyword
 
 ```
+# Template
+http://34.234.193.247/articles/keyword/<keyword>/<max_number_of_results>
+
 # Example
-http://54.159.0.113/articles/keyword/Google
+http://34.234.193.247/articles/keyword/Google/25
 ```
 
 # How to Crawl a New Site
@@ -48,3 +51,4 @@ http://54.159.0.113/articles/keyword/Google
 - cd to the home directory of the app and run the Django Shell using the command `./manage.py shell`.
 - Finally, we need to run the script which will scrape the contents of the links containing an article and will add the data to the DB. Type the following command within the Django shell to start running the script : `exec(open("custom_crawlers/<site_name>/scrape_article_body_and_save_to_db.py").read())`. Don't forget to replace `<site_name>` with the folder you created in the first step, for example : `networkworld`.
 - You should be able to see the progress of the Script as it runs.
+
