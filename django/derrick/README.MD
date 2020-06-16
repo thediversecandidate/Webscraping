@@ -1,7 +1,7 @@
 # Django Application that works as API and runs a CRON Job
 
 
-##Project Structure : 
+## Project Structure : 
 
 The complete Project is built by following standard Django Conventions. The app only contains the `api` which contains all the business logic serving the REST API.
 
@@ -10,7 +10,7 @@ The complete Project is built by following standard Django Conventions. The app 
 - `derrick/models.py` contains the 'Article' Model definition. 
 - `api/documents.py` contains models definition for ElasticSearch api indexing
 
-##How to run
+## How to run
 
 ```
 python manage.py runserver 0.0.0.0:80
