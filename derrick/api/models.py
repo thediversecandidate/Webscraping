@@ -9,6 +9,8 @@ class Article(models.Model):
 	body = models.TextField()
 	article_summary = models.TextField(default="")
 	list_of_keywords = models.TextField(default="")
+	wordcloud_words = models.TextField(default="")
+	wordcloud_scores = models.TextField(default="")
 	created_date = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
