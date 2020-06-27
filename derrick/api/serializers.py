@@ -6,5 +6,5 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['id', 'url', 'title', 'body', 'article_summary', 'list_of_keywords']
+        fields = ['id', 'url', 'title', 'body', 'article_summary', 'list_of_keywords', 'wordcloud_words', 'wordcloud_scores', 'created_date']
 

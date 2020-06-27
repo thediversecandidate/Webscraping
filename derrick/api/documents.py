@@ -13,5 +13,5 @@ class ArticleDocument(Document):
     class Django:
         model = Article
 
-        fields = ['title', 'url', 'body', 'article_summary', 'list_of_keywords']
+        fields = ['title', 'url', 'body', 'article_summary', 'list_of_keywords', 'wordcloud_words', 'wordcloud_scores', 'created_date']
 
