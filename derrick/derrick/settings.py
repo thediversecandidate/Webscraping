@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-0!1_c201%6pn^@5&4q$wjov0n#w-umwha9fpb+1ef_lpli2n4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.234.193.247']
 
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'django_elasticsearch_dsl',
+
+    'debug_toolbar',
 
 ]
 
@@ -75,6 +77,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'derrick.urls'
@@ -97,6 +101,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'derrick.wsgi.application'
 
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) 
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
