@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl',
 
     'debug_toolbar',
+    'silk',
 
 ]
 
@@ -79,6 +80,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'derrick.urls'
