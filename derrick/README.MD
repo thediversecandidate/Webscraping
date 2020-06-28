@@ -26,8 +26,6 @@ Key : "Authorization"
 Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 ```
 
-![Postman](postman.png)
-
 ## Get Articles by Page number
 
 ```
