@@ -101,7 +101,7 @@ class Scraper:
         
         except:
             print("\nException occured in extract_relevant_links()")
-            return False
+            return None
             
     
     def get_page_source(self, url):

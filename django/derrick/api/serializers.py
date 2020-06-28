@@ -3,8 +3,12 @@ from api.models import Article
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+	created_date = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Article
-        fields = ['id', 'url', 'title', 'body', 'article_summary', 'list_of_keywords']
+	class Meta:
+		model = Article
+		fields = ['id', 'url', 'title', 'body', 'article_summary', 'list_of_keywords', 'wordcloud_words', 'wordcloud_scores', 'created_date']
 
+
+	def get_created_date(self, obj):
+		return str(obj.created_date)[:10]

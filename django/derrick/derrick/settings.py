@@ -45,6 +45,9 @@ INSTALLED_APPS = [
 
     'django_elasticsearch_dsl',
 
+    'debug_toolbar',
+    'silk',
+
 ]
 
 # SMMRY API PARAMS
@@ -75,6 +78,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'silk.middleware.SilkyMiddleware',
 ]
 
 ROOT_URLCONF = 'derrick.urls'
@@ -97,6 +104,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'derrick.wsgi.application'
 
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) 
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

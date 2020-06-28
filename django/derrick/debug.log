@@ -1,9 +1,0 @@
-Failed to import the site module
-Traceback (most recent call last):
-  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site.py", line 553, in <module>
-    main()
-  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site.py", line 536, in main
-    known_paths = venv(known_paths)
-  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site.py", line 459, in venv
-    with open(virtual_conf, encoding='utf-8') as f:
-PermissionError: [Errno 1] Operation not permitted: '/Users/raunaq/Desktop/derrick/aws/v/pyvenv.cfg'

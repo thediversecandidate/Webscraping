@@ -13,6 +13,10 @@ username : derrick
 password : derrick  
 ```
 
+## View Analytics Dashboard
+```
+http://34.234.193.247/analytics/
+```
 
 ## Add this to the Request Headers when calling the GET Request. 
 - You can find this token and create new ones from the Django Admin Dashboard. You can test it using Postman by adding the following key-value pair in Postman
@@ -21,8 +25,6 @@ password : derrick
 Key : "Authorization"
 Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 ```
-
-![Postman](postman.png)
 
 ## Get Articles by Page number
 
@@ -52,3 +54,25 @@ http://34.234.193.247/articles/keyword/Google/25
 - Finally, we need to run the script which will scrape the contents of the links containing an article and will add the data to the DB. Type the following command within the Django shell to start running the script : `exec(open("custom_crawlers/<site_name>/scrape_article_body_and_save_to_db.py").read())`. Don't forget to replace `<site_name>` with the folder you created in the first step, for example : `networkworld`.
 - You should be able to see the progress of the Script as it runs.
 
+# Word-Cloud Module
+
+- The `WordFreqency.py` is added to generate a `word:freqency` pair that can be generated from a given input. This module will be used by the Frontend to generate a Word-Cloud and display it on the frontend.
+- Dependencies : 
+	- `nltk` for word tokenization
+	- `Counter` from the Collections to easily generate frequency map
+	- `re` for regular-expression matching
+
+### Usage
+
+- To use the module in your app, import module using `from utilities.word_frequency import WordFrequency`
+- Create Instance, for example `wf = WordFrequency()`
+- Use the `get_frequent_words()` method and pass a body of text as input
+- Output will be a Python Dictionary Object with keys `words` and `frequency` 	
+
+
+## Changelog : 
+
+- 28/06/2020
+	- Added `created_data` as a parameter to be return on all queries
+	- added `django-silk` for Profiling all requests handled by the server
+	- added `word_frequency` module in the `utilities` directory to generate a `word:freq` map from a given body of text.
