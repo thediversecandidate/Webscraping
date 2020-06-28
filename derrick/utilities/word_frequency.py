@@ -2,6 +2,7 @@
 # import necessary modules
 from wordcloud import STOPWORDS as wordcloud_stopwords
 from collections import Counter
+from nltk import word_tokenize
 import time
 
 # for regular expressions checking
