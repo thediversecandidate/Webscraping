@@ -37,10 +37,10 @@ http://34.234.193.247/articles/page/1
 
 ```
 # Template
-http://34.234.193.247/articles/keyword/<keyword>/<max_number_of_results>
+http://34.234.193.247/articles/search/<keyword>/<max_number_of_results>
 
 # Example
-http://34.234.193.247/articles/keyword/Google/25
+http://34.234.193.247/articles/search/Google/25
 ```
 
 # How to Crawl a New Site
