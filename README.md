@@ -64,10 +64,10 @@ Want a PDF version of this blog post? Click here to download it.
 
 References
 
-Densmore, J. (2017, July 23). Ethics in Web Scraping. Retrieved from https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01
-Moz. (2019). Robots.txt. Retrieved from https://moz.com/learn/seo/robotstxt
-Koshy, J. (2016, April 11). Is Data scraping an Ethical practice? Retrieved from https://www.promptcloud.com/blog/is-data-scraping-ethical/
-Kansal, S. (2019, January 23). Advanced Python Web Scraping: Best Practices & Workarounds. Retrieved from https://www.codementor.io/blog/python-web-scraping-63l2v9sf2q
-ScrapeHero (2019, October 10). How to prevent getting blocked while scraping. Retrieved from https://www.scrapehero.com/how-to-prevent-getting-blacklisted-while-scraping/
-Jami @ Empirical (2019,December 02). A Guide to Ethical Web Scraping. Retrieved from
+- Densmore, J. (2017, July 23). Ethics in Web Scraping. Retrieved from https://towardsdatascience.com/ethics-in-web-scraping-b96b18136f01
+- Moz. (2019). Robots.txt. Retrieved from https://moz.com/learn/seo/robotstxt
+- Koshy, J. (2016, April 11). Is Data scraping an Ethical practice? Retrieved from https://www.promptcloud.com/blog/is-data-scraping-ethical/
+- Kansal, S. (2019, January 23). Advanced Python Web Scraping: Best Practices & Workarounds. Retrieved from https://www.codementor.io/blog/python-web-scraping-63l2v9sf2q
+- ScrapeHero (2019, October 10). How to prevent getting blocked while scraping. Retrieved from https://www.scrapehero.com/how-to-prevent-getting-blacklisted-while-scraping/
+- Jami @ Empirical (2019,December 02). A Guide to Ethical Web Scraping. Retrieved from
 https://drive.google.com/file/d/1UlNznpQuD1Y79jEOAKpBtPkunbXrgF9z/view
