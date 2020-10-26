@@ -22,4 +22,6 @@ Identify yourself
 
 The website’s administrator may notice some unusual traffic happening. Manners come first, so let them know who you are, your intentions, and how to contact you for more questions. You can do this by simply adding a User-Agent string with your information, so they will be able to see it. Is that simple
 
+Schedhule scraping
+
 Scrape at planned intervals not constantly or on demand.
