@@ -8,14 +8,14 @@ python manage.py runserver 0.0.0.0:80
 
 ## Admin Page
 ```
-http://34.234.193.247/admin
+https://34.234.193.247/admin
 username : derrick
 password : derrick  
 ```
 
 ## View Analytics Dashboard
 ```
-http://34.234.193.247/analytics/
+https://34.234.193.247/analytics/
 ```
 
 ## Add this to the Request Headers when calling the GET Request. 
@@ -30,17 +30,17 @@ Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 
 ```
 # Example
-http://34.234.193.247/articles/page/1
+https://34.234.193.247/articles/page/1
 ```
 
 ## Get Article by Searching for a keyword
 
 ```
 # Template
-http://34.234.193.247/articles/search/<keyword>/<max_number_of_results>
+https://34.234.193.247/articles/search/<keyword>/<max_number_of_results>
 
 # Example
-http://34.234.193.247/articles/search/Google/25
+https://34.234.193.247/articles/search/Google/25
 ```
 
 # How to Crawl a New Site
