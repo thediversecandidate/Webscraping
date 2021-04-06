@@ -1,8 +1,10 @@
 # Django Application that works as API and runs a CRON Job
 
 How to run : 
-
+On Mac
 ```
+cd jobs
+cd jobs
 python manage.py runserver 0.0.0.0:80
 ```
 
