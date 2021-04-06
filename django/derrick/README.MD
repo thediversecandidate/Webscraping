@@ -2,6 +2,7 @@
 
 How to run : 
 On Mac
+Open a cmd terminal (BASH,SSH etc..)
 ```
 cd jobs
 cd jobs
