@@ -17,8 +17,13 @@ class Scraper:
         self.start_time = time.time()
         
     def initialize(self):
-        
+        self.queue.append("https://datacenterfrontier.com")
+        self.queue.append("https://datacenterfrontier.com/category/cloudcomputing/")
         self.queue.append("https://datacenterfrontier.com/category/hyperscale/")
+        self.queue.append("https://datacenterfrontier.com/category/colocation/")
+        #self.queue.append(self.base_url)
+        
+         
         self.queue.append(self.base_url)
         
     def start(self):
@@ -56,19 +61,40 @@ class Scraper:
         self.scraping_complete()
 
     # append article links to the "txt" file
+    
+    
     def append_to_file(self, data):
         f = open(os.path.join(os.getcwd(), "article_links.txt"), "a+")
         f.write(data + "\n")
         f.close()
         
     # Modify the logic in the 'try' block to determine whether the page contains an article or not
+#     def page_is_article(self, url):
+
+#         try:
+
+#             page_source = self.get_page_source(url)
+#             soup = BeautifulSoup(page_source)
+#             article_div = soup.find('div', {'class' : 'article-content-wrap'})
+
+#             if article_div is None:
+#                 return False
+
+#             if len(article_div) == 0:
+#                 return False
+
+#             return True
+
+#         except:
+#             print("\nException occured in page_is_article()")
+#             return False 
+    
     def page_is_article(self, url):
 
         try:
-
             page_source = self.get_page_source(url)
             soup = BeautifulSoup(page_source)
-            article_div = soup.find('div', {'class' : 'article-content-wrap'})
+            article_div = soup.find('div', {'class' : 'entry-content'})
 
             if article_div is None:
                 return False
@@ -80,8 +106,9 @@ class Scraper:
 
         except:
             print("\nException occured in page_is_article()")
-            return False
-    
+            return False 
+        
+        
     def extract_relevant_links(self, page_source):
         
         try:
@@ -93,9 +120,9 @@ class Scraper:
 
             for i, l in enumerate(all_links):
                 if l.has_key('href'):
-                    if l['href'].startswith('/'):
-                        if not (self.base_url in l):
-                            relevant_links.append(self.base_url + l['href'])
+                    #if l['href'].startswith('/'):
+                    #if (self.base_url in l):
+                    relevant_links.append(l['href'])
 
             return relevant_links
         
