@@ -43,6 +43,16 @@ http://34.234.193.247/articles/keyword/<keyword>/<max_number_of_results>
 http://34.234.193.247/articles/keyword/Google/25
 ```
 
+## Get Total number of results present in DB for a given Keyword
+
+```
+# Template
+http://34.234.193.247/articles/results/<keyword>
+
+# Example
+http://34.234.193.247/articles/results/Xeon
+```
+
 # How to Crawl a New Site
 
 - Make a copy of any existing folder in the directory `custom_crawlers`

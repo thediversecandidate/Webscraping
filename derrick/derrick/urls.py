@@ -30,6 +30,7 @@ urlpatterns = [
     path('articles/page/<page_num>/', views.get_articles_by_page, name='articles-by-page'),
     path('articles/keyword/<keyword>', views.get_articles_by_keyword, name='get_articles_by_keyword'),
     path('articles/search/<keyword>/<no_of_results>', views.search_articles_by_keyword, name='search_articles_by_keyword'),
+    path('articles/results/<keyword>', views.get_total_results_by_keyword, name='get_total_results_by_keyword'),
     path('test/', views.test_endpoint, name='test_endpoint'),
     path('analytics/', include('silk.urls', namespace='silk')),
 

@@ -72,3 +72,19 @@ def search_articles_by_keyword(request, keyword, no_of_results):
 
     serializer = ArticleSerializer(queryset, many=True)
     return Response(serializer.data)
+
+
+@api_view(('GET',))
+@permission_classes([IsAuthenticated])
+def get_total_results_by_keyword(request, keyword):
+    keyword = (str(keyword)).strip()
+
+    count = 0
+    try:
+        queryset = ArticleDocument.search().query("match", body=keyword)
+        count = queryset.count()
+
+    except:
+        pass
+
+    return Response({'count' : count})
