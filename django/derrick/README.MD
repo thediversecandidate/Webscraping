@@ -88,6 +88,14 @@ https://api.thediversecandidate.com/articles/results/Xeon
 
 ## Changelog :
 
+- 12/04/2021
+
+  - Added API Endpoint for returning total number of results for a given query
+
+- 12/04/2021
+
+  - updated craw_for_link for datacenterfrontier.com
+
 - 28/06/2020
   - Added `created_data` as a parameter to be return on all queries
   - added `django-silk` for Profiling all requests handled by the server
