@@ -21,7 +21,7 @@ password : derrick
 ## View Analytics Dashboard
 
 ```
-http://api.thediversecandidate.com/analytics/
+https://api.thediversecandidate.com/analytics/
 ```
 
 ## Add this to the Request Headers when calling the GET Request.
@@ -37,24 +37,34 @@ Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
 
 ```
 # Example
-http://api.thediversecandidate.com/articles/page/1
+https://api.thediversecandidate.com/articles/page/1
 ```
 
 ## Get Article by Searching for a keyword
 
 ```
 # Template
-http://api.thediversecandidate.com/articles/search/<keyword>/<max_number_of_results>
+https://api.thediversecandidate.com/articles/keyword/<keyword>/<max_number_of_results>
 
 # Example
-http://api.thediversecandidate.com/articles/search/Google/25
+https://api.thediversecandidate.com/articles/keyword/Google/25
+```
+
+## Get Total number of results present in DB for a given Keyword
+
+```
+# Template
+https://api.thediversecandidate.com/articles/results/<keyword>
+
+# Example
+https://api.thediversecandidate.com/articles/results/Xeon
 ```
 
 # How to Crawl a New Site
 
 - Make a copy of any existing folder in the directory `custom_crawlers`
 - Rename the folder to the site you want to scrape, for example : `datacenterknowledge.com`
-- Make necessary changes in the functions in the `crawl_for_links.py` file. The changes should be minimal, depending on the structure of the new website.
+- Make necessary changes in the functionsin the `crawl_for_links.py` file. The changes should be minimal, depending on the structure of the new website.
 - Once, you've made the changes, run the script using the command `python crawl_for_links.py` and the script should start crawling and a new file named `article_links.txt` will be populated with links as the cralwers runs.
 - Next, make necessary changes in the `scrape_article_page()` function in the file `scrape_article_body_and_save_to_db.py`.
 - cd to the home directory of the app and run the Django Shell using the command `./manage.py shell`.
