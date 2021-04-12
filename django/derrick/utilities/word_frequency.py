@@ -24,7 +24,7 @@ class WordFrequency():
 	def get_frequent_words(self, body_of_text, number_of_stopwords=25):
 		
 		# get all the words that are "words" using regex
-		regex_input_text = re.split(r"\W+", body_of_text)
+		regex_input_text = re.split(r"\W+", body_of_text.lower())
 
 		# empty list declared
 		cleaned_words = []

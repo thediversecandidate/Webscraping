@@ -25,8 +25,7 @@ SECRET_KEY = '-0!1_c201%6pn^@5&4q$wjov0n#w-umwha9fpb+1ef_lpli2n4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.234.193.247']
-
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.234.193.247', 'api.thediversecandidate.com', 'thediversecandidate.com']
 
 # Application definition
 
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'silk',
 
+    'corsheaders',
 ]
 
 # SMMRY API PARAMS
@@ -73,6 +73,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,10 +116,10 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'derrick',
-        'USER': 'derrick',
-        'HOST': 'localhost',
-	'PASSWORD': 'derrick',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'derrick.c6takndlw3wu.us-east-1.rds.amazonaws.com',
+	'PASSWORD': 'derrickpostgres123',
         'PORT': '5432'
     }
 }
@@ -177,3 +178,10 @@ CELERY_TIMEZONE = 'Africa/Nairobi'
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+CORS_ALLOWED_ORIGINS = [
+    "http://thediversecandidate.com",
+    "https://thediversecandidate.com",
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
