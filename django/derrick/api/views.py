@@ -70,10 +70,10 @@ def search_articles_by_keyword(request, keyword, first, no_of_results, sort_by):
     try:
         keyword = (str(keyword)).strip()
 
-        sort_by_field = "created_date"
+        sort_by_field = "published_date"
 
         if sort_by == "desc":
-            sort_by_field = '-created_date'
+            sort_by_field = '-published_date'
 
         queryset = ArticleDocument.search().query("match", body=keyword).sort(sort_by_field)[int(first):int(no_of_results)]
 

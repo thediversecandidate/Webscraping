@@ -45,8 +45,9 @@ def scrape_article_page(link):
 		else:
 			summary = soup.find('h3', {'itemprop' : 'description'}).text
 
+		published_date =  soup.find('span', {'itemprop':'datePublished'})['content'];
 
-		return {'headline' : headline, 'summary' : summary, 'article_body' : article_body}
+		return {'headline' : headline, 'summary' : summary, 'article_body' : article_body, 'published_date' : published_date}
 
 	except:
 
@@ -82,13 +83,14 @@ for article_url in article_urls:
 		list_of_keywords = ""
 
 		try:
-			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
+			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords, published_date=published_date)
 			new_article.save()
 
 			print("{} Done".format(i))
 			i += 1
 		
-		except:
+		except Exception as e:
+			print(e)
 			pass
 
 
