@@ -2,8 +2,12 @@
 
 Preliminaries:
 Change directory into the folder that contains the manage.py file on your computer
-Example: >> cd mysite
 usually this is the mysite folder but maybe it was renamed something else by you at installation
+
+```
+Example: >> cd mysite
+```
+
 
 How to run :
 
