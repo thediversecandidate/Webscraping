@@ -77,12 +77,17 @@ Click the green Clone or Download button on the right.
 Click the Download ZIP button. 
 This will download the repo to your computer as a . Zip file. Advertisement.
 ```
-- Rename the folder to the site you want to scrape, for example : `datacenterknowledge.com`
-- Make necessary changes in the functionsin the `crawl_for_links.py` file. The changes should be minimal, depending on the structure of the new website.
-- Once, you've made the changes, run the script using the command `python crawl_for_links.py` and the script should start crawling and a new file named `article_links.txt` will be populated with links as the cralwers runs.
-- Next, make necessary changes in the `scrape_article_page()` function in the file `scrape_article_body_and_save_to_db.py`.
-- cd to the home directory of the app and run the Django Shell using the command `./manage.py shell`.
-- Finally, we need to run the script which will scrape the contents of the links containing an article and will add the data to the DB. Type the following command within the Django shell to start running the script : `exec(open("custom_crawlers/<site_name>/scrape_article_body_and_save_to_db.py").read())`. Don't forget to replace `<site_name>` with the folder you created in the first step, for example : `networkworld`.
+- Rename the folder to the site you want to scrape, 
+- 
+```
+- for example : `datacenterknowledge.com`
+```
+- Make necessary changes in the functions in the ```crawl_for_links.py``` file. 
+- The changes should be minimal, depending on the structure of the new website.
+- Once, you've made the changes, run the script using the command ```python crawl_for_links.py``` and the script should start crawling and a new file named ```article_links.txt``` will be populated with links as the cralwers runs.
+- Next, make necessary changes in the ```scrape_article_page()```function in the file ```scrape_article_body_and_save_to_db.py```.
+- cd to the home directory of the app and run the Django Shell using the command ```./manage.py shell```.
+- Finally, we need to run the script which will scrape the contents of the links containing an article and will add the data to the DB. Type the following command within the Django shell to start running the script : ```exec(open("custom_crawlers/<site_name>/scrape_article_body_and_save_to_db.py").read())```. Don't forget to replace ```<site_name>``` with the folder you created in the first step, for example : ```networkworld```.
 - You should be able to see the progress of the Script as it runs.
 
 # Word-Cloud Module
