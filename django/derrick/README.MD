@@ -70,10 +70,12 @@ https://api.thediversecandidate.com/articles/results/Xeon
 
 - Make a copy of any existing folder in the directory `custom_crawlers`
 
-``` Method 1 of 2: Downloading a Repo From GitHub on the Web
+``` 
+Method 1 of 2: Downloading a Repo From GitHub on the Web
 Navigate to the repo you want to download or clone.
 Click the green Clone or Download button on the right.
-Click the Download ZIP button. This will download the repo to your computer as a . Zip file. Advertisement.
+Click the Download ZIP button. 
+This will download the repo to your computer as a . Zip file. Advertisement.
 ```
 - Rename the folder to the site you want to scrape, for example : `datacenterknowledge.com`
 - Make necessary changes in the functionsin the `crawl_for_links.py` file. The changes should be minimal, depending on the structure of the new website.
