@@ -1,5 +1,10 @@
 # Django Application that works as API and runs a CRON Job
 
+Preliminaries:
+Change directory into the folder that contains the manage.py file on your computer
+Example: >> cd mysite
+usually this is the mysite folder but maybe it was renamed something else by you at installation
+
 How to run :
 
 ```
