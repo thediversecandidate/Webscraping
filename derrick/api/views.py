@@ -65,12 +65,23 @@ def get_articles_by_keyword(request, keyword):
 
 @api_view(('GET',))
 @permission_classes([IsAuthenticated])
-def search_articles_by_keyword(request, keyword, no_of_results):
-    keyword = (str(keyword)).strip()
+def search_articles_by_keyword(request, keyword, first, no_of_results, sort_by):
 
-    queryset = ArticleDocument.search().query("match", body=keyword)[:int(no_of_results)]
+    try:
+        keyword = (str(keyword)).strip()
 
-    serializer = ArticleSerializer(queryset, many=True)
+        sort_by_field = "published_date"
+
+        if sort_by == "desc":
+            sort_by_field = '-published_date'
+
+        queryset = ArticleDocument.search().query("match", body=keyword).sort(sort_by_field)[int(first):int(no_of_results)]
+
+        serializer = ArticleSerializer(queryset, many=True)
+
+    except Exception as e:
+        print(e)
+
     return Response(serializer.data)
 
 
@@ -84,7 +95,7 @@ def get_total_results_by_keyword(request, keyword):
         queryset = ArticleDocument.search().query("match", body=keyword)
         count = queryset.count()
 
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
     return Response({'count' : count})

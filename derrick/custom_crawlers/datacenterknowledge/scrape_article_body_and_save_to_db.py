@@ -33,13 +33,15 @@ def scrape_article_page(link):
 		else:
 			headline = (headline.text).strip()
 
+		published_date =  soup.find('meta', {'itemprop':'datePublished'})['content'];
+
 		summary = soup.find('div', {'class' : 'field field-name-field-penton-content-summary field-type-text-long field-label-hidden'})
 		if summary is None:
 			summary = paras[0]
 		else:
 			summary = (summary.text).strip()
 
-		return {'headline' : headline, 'summary' : summary, 'article_body' : article_body}
+		return {'headline' : headline, 'summary' : summary, 'article_body' : article_body, 'published_date' : published_date}
 
 	except:
 
@@ -72,16 +74,18 @@ for article_url in article_urls:
 		article_title = data["headline"]
 		article_body = data["article_body"]
 		article_summary = data["summary"]
+		published_date = data["published_date"]
 		list_of_keywords = ""
 
 		try:
-			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
+			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords, published_date=published_date)
 			new_article.save()
 
 			print("{} Done".format(i))
 			i += 1
 		
-		except:
+		except Exception as e:
+			print(e)
 			pass
 
 
