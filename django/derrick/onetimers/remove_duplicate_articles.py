@@ -8,7 +8,7 @@ duplicates = 0
 
 for article in all_articles:
     if article.title not in seen:
-        seen.add(article)
+        seen.add(article.title)
     else:
         duplicates += 1
         try:
