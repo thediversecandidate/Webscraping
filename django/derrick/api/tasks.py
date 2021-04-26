@@ -5,20 +5,27 @@ from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 # DataCenterKnowledge
-from custom_crawlers.datacenterknowledge.cron_job_homepage_scraper import scraper_datacenter
+from custom_crawlers.datacenterknowledge.cron_job_homepage_scraper import scraper_datacenter as datacenterknowledge_scraper
+
+# DataCenterFrontier
+from custom_crawlers.datacenterfrontier.cron_job_homepage_scraper import scraper_datacenter as datacenterfrontier_scraper
 
 @periodic_task(
     run_every=(crontab(minute=0, hour='*/6')),
-    name="scrape_data_from_site",
+    name="scrape_datacenter",
     ignore_result=True
 )
 def scrape_data_from_site():
     """
     Runs all the Scrapers
     """
-    # save_latest_flickr_image()
-    scraper_datacenter()
-    #scraper_start_scraping_xyz()
+
+    # DataCenterKnowledge
+    datacenterknowledge_scraper()
+
+    # DataCenterFrontier
+    datacenterfrontier_scraper()
+
     logger.info("Scraping task started...")
 
 
