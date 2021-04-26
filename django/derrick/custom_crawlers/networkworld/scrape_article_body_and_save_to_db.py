@@ -2,6 +2,7 @@ import os
 import time
 import requests
 import bs4
+import dateutil.parser as dparser
 
 from api.scraper_utils import add_record_to_db
 from api.models import Article

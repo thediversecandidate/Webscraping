@@ -2,6 +2,7 @@ import time
 import requests
 import bs4
 from collections import OrderedDict as OD
+import dateutil.parser as dparser
 
 from api.models import Article
 
@@ -40,12 +41,13 @@ def get_summary_and_keywords_from_smmry_api(article_url):
 		print("Some exception occurred")
 		return ({})
 
-def get_article_body_from_url(article_url):
+def get_article_content_from_url(article_url):
 
 	print("waiting for 30 Seconds before starting WebPage Scraper")
 	time.sleep(30)
 	try:
 
+		# body
 		r = requests.get(article_url)
 		soup = bs4.BeautifulSoup(r.text)
 
@@ -61,7 +63,19 @@ def get_article_body_from_url(article_url):
 
 		article_body = '\n\n'.join(paras)
 
-		return article_body
+		published_date = ""
+		try:
+			published_date = soup.find('span', {'class' : 'date-display-single'}).text
+			published_date = dparser.parse(published_date, fuzzy=True)
+		except:
+			pass
+
+		response = {
+			'body' : article_body,
+			'published_date' : published_date
+		}
+
+		return response
 
 	except:
 
@@ -95,9 +109,19 @@ def extract_links_from_homepage():
 	return data
 
 
-def add_record_to_db(title, url, body, article_summary, list_of_keywords):
-	new_article = Article(title=title, url=url, body=body, article_summary=article_summary, list_of_keywords=list_of_keywords)
-	new_article.save()
+def add_record_to_db(title, url, body, published_date, article_summary, list_of_keywords):
+	try:
+		print("Saving New Article to DB")
+		new_article = Article(title=title, 
+								url=url, 
+								body=body,
+								published_date=published_date,
+								article_summary=article_summary, 
+								list_of_keywords=list_of_keywords
+								)
+		new_article.save()
+	except:
+		print("Failed to save Article to DB. Probably ElasticSearch BuildIndex error")
 
 
 def article_url_exists_in_db(url):
@@ -131,7 +155,7 @@ def scraper_datacenter():
 
 		if not article_url_exists_in_db(article_url):
 			# scrape and parse the article body from URL
-			article_body = get_article_body_from_url(article_url)
+			article_content = get_article_content_from_url(article_url)
 			data_from_smmry_api = get_summary_and_keywords_from_smmry_api(article_url)
 
 			# Get Article Summary from SMMRY API
@@ -145,6 +169,15 @@ def scraper_datacenter():
 				list_of_keywords = " ".join([word.lower() for word in _keywords])
 
 			# Create Model and Save it to DB
-			add_record_to_db(url=article_url, title=article_title, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords)
+			add_record_to_db(url=article_url, 
+							title=article_title, 
+							body=article_content['body'],
+							published_date=article_content['published_date'],
+							article_summary=article_summary, 
+							list_of_keywords=list_of_keywords
+							)
 
+
+if __name__ == '__main__':
+	scraper_datacenter()
 

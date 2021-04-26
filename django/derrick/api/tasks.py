@@ -4,10 +4,11 @@ from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
 
-from api.scraper_utils import scraper_datacenter
+# DataCenterKnowledge
+from custom_crawlers.datacenterknowledge.cron_job_homepage_scraper import scraper_datacenter
 
 @periodic_task(
-    run_every=(crontab(minute=0, hour='*/3')),
+    run_every=(crontab(minute=0, hour='*/6')),
     name="scrape_data_from_site",
     ignore_result=True
 )
