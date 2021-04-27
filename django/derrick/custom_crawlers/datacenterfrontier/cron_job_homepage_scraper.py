@@ -156,6 +156,10 @@ def scraper_datacenter():
     # iterate through all links and check if URL exists in DB
     # If it doesn't, add it to the DB
 
+    print("="*50)
+	print("Total items : {}".format(len(items)))
+	print("="*50)
+
     for item in items:
         article_title = item['title']
         article_url = item['url']
@@ -188,3 +192,5 @@ def scraper_datacenter():
                             article_summary=article_summary, 
                             list_of_keywords=list_of_keywords
                             )
+        else:
+			print("URL : {} already exists in DB".format(article_url))
