@@ -15,14 +15,24 @@ from custom_crawlers.datacenterfrontier.cron_job_homepage_scraper import scraper
     name="scrape_datacenter",
     ignore_result=True
 )
-def scrape_data_from_site():
+def run_datacenterknowledge_scraper():
     """
-    Runs all the Scrapers
+    Runs the scraper
     """
 
     # DataCenterKnowledge
     datacenterknowledge_scraper()
 
+@periodic_task(
+    run_every=(crontab(minute=0, hour='*/6')),
+    name="scrape_datacenter",
+    ignore_result=True
+)
+def run_datacenterfrontier_scraper():
+    """
+    Runs the scraper
+    """
+    
     # DataCenterFrontier
     datacenterfrontier_scraper()
 
