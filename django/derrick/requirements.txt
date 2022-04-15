@@ -14,7 +14,7 @@ django-background-tasks==1.2.5
 django-compat==1.0.15
 django-cors-headers==3.7.0
 django-crontab==0.7.1
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
 django-elasticsearch-dsl==7.1.1
 django-silk==4.1.0
 djangorestframework==3.11.2
