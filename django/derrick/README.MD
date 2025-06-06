@@ -105,6 +105,16 @@ This will download the repo to your computer as a . Zip file. Advertisement.
 - Use the `get_frequent_words()` method and pass a body of text as input
 - Output will be a Python Dictionary Object with keys `words` and `frequency`
 
+## Running tests locally
+
+1. Run `./setup.sh` from the repository root to create a virtual environment and
+   install all dependencies.
+2. Execute the Django test suite:
+
+   ```bash
+   python manage.py test api --verbosity 2
+   ```
+
 ## Changelog :
 
 - 12/04/2021
