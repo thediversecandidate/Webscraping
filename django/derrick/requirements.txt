@@ -9,7 +9,7 @@ celery==5.2.2
 certifi==2020.4.5.1
 chardet==3.0.4
 cycler==0.10.0
-Django==3.1.14
+Django==4.2.22
 django-background-tasks==1.2.5
 django-compat==1.0.15
 django-cors-headers==3.7.0
