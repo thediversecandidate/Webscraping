@@ -28,7 +28,7 @@ kombu==5.2.4
 MarkupSafe==1.1.1
 matplotlib==3.2.2
 numpy==1.26.4
-Pillow==11.2.1
+Pillow==11.3.0
 psycopg2-binary==2.9.10
 pycodestyle==2.7.0
 Pygments==2.8.1
