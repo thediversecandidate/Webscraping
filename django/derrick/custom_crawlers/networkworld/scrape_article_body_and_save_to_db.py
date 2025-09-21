@@ -84,7 +84,7 @@ for article_url in article_urls:
 		list_of_keywords = ""
 
 		try:
-			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords, published_date=published_date)
+			new_article = Article(title=article_title, url=article_url, body=article_body, article_summary=article_summary, list_of_keywords=list_of_keywords, published_date=data["published_date"])
 			new_article.save()
 
 			print("{} Done".format(i))
