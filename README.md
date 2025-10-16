@@ -10,6 +10,7 @@
 
 - 📊 **[STATUS.md](STATUS.md)** - Is this software working? What does it do?
 - 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and component relationships
+- ❓ **[FAQ.md](FAQ.md)** - Frequently asked questions
 - 📖 **[Django App README](django/derrick/README.MD)** - Detailed setup and usage instructions
 - 🔗 **[Frontend Repository](https://github.com/thediversecandidate/webscraper-React-FrontEnd)** - React frontend that consumes this API
 
@@ -25,6 +26,9 @@ This repository contains a **Django REST API backend** that:
 ## Quick Start
 
 ```bash
+# Check system status and dependencies
+python3 check_status.py
+
 # Setup virtual environment and install dependencies
 ./setup.sh
 
