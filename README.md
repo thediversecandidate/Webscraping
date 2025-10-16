@@ -5,9 +5,15 @@
 [![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-3.1.14-green.svg)](https://www.djangoproject.com/)
 [![Django REST Framework](https://img.shields.io/badge/DRF-3.11.2-red.svg)](https://www.django-rest-framework.org/)
+[![Status](https://img.shields.io/badge/Status-Working-success.svg)](STATUS.md)
+
+> 📋 **Quick Answer**: Yes, this software is working! It's a Django REST API backend. The frontend is in a [separate repository](https://github.com/thediversecandidate/webscraper-React-FrontEnd).
+> 
+> 📖 **See [SUMMARY.md](SUMMARY.md) for complete analysis results.**
 
 ## Quick Links
 
+- 📋 **[SUMMARY.md](SUMMARY.md)** - **START HERE** - Analysis results answering the key questions
 - 📊 **[STATUS.md](STATUS.md)** - Is this software working? What does it do?
 - 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and component relationships
 - ❓ **[FAQ.md](FAQ.md)** - Frequently asked questions
