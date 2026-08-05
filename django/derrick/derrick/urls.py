@@ -33,8 +33,8 @@ urlpatterns = [
     path('articles/results/<keyword>', views.get_total_results_by_keyword, name='get_total_results_by_keyword'),
     path('test/', views.test_endpoint, name='test_endpoint'),
     path('analytics/', include('silk.urls', namespace='silk')),
-
-
 ]
 
-# urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]

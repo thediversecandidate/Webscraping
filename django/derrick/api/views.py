@@ -17,16 +17,7 @@ def index(request):
 
 @api_view(('GET',))
 def test_endpoint(request):
-    
-    ans = "Failed"
-
-    try:
-        v = settings.SMMRY_API_ENDPOINT
-        ans = str(v)
-    except Exception as e:
-        raise e
-
-    return Response(ans)
+    return Response(str(settings.SMMRY_API_ENDPOINT))
 
 
 @api_view(('GET',))
@@ -38,7 +29,10 @@ def get_articles_by_page(request, page_num):
 
     number_of_articles = Article.objects.count()
 
-    if end > number_of_articles:
+    # 404 only when this page has no articles at all -- a page whose end
+    # falls past the last article but whose start is still in range (i.e.
+    # the last, partial page) should still return what's available.
+    if start >= number_of_articles:
         return HttpResponse(status=404)
 
     articles = Article.objects.all()[start:end]
@@ -51,15 +45,8 @@ def get_articles_by_page(request, page_num):
 def get_articles_by_keyword(request, keyword):
     keyword = str(keyword)
 
-    response = []
-
-    queryset = Article.objects.all()
-    for q in queryset:
-        if keyword in q.title:
-            response.append(q)
-
-    print(len(response))
-    serializer = ArticleSerializer(response, many=True)
+    queryset = Article.objects.filter(title__icontains=keyword)
+    serializer = ArticleSerializer(queryset, many=True)
     return Response(serializer.data)
 
 
@@ -78,11 +65,11 @@ def search_articles_by_keyword(request, keyword, first, no_of_results, sort_by):
         queryset = ArticleDocument.search().query("match", body=keyword).sort(sort_by_field)[int(first):int(no_of_results)]
 
         serializer = ArticleSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     except Exception as e:
         print(e)
-
-    return Response(serializer.data)
+        return Response({'detail': 'search failed'}, status=500)
 
 
 @api_view(('GET',))
