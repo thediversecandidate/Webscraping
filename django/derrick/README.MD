@@ -19,9 +19,11 @@ python manage.py runserver 0.0.0.0:80
 
 ```
 https://api.thediversecandidate.com/admin
-username : derrick
-password : derrick
 ```
+
+Log in with your Django admin account. (This file previously listed a
+plaintext username/password here -- that account's password needs to be
+rotated in the admin panel since it was exposed in this public repo.)
 
 ## View Analytics Dashboard
 
@@ -31,11 +33,15 @@ https://api.thediversecandidate.com/analytics/
 
 ## Add this to the Request Headers when calling the GET Request.
 
-- You can find this token and create new ones from the Django Admin Dashboard. You can test it using Postman by adding the following key-value pair in Postman
+- Auth uses DRF token authentication. Generate your own token from the
+  Django Admin Dashboard (Tokens section) rather than reusing any token
+  that may have previously been documented here -- any token that was ever
+  committed to this repo should be treated as compromised and deleted from
+  the admin panel.
 
 ```
 Key : "Authorization"
-Value : "Token fd314d4436dfdc9fd990822cd1e483d951c7dfd6"
+Value : "Token <your-own-token-here>"
 ```
 
 ## Get Articles by Page number

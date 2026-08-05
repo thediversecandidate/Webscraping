@@ -19,11 +19,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-0!1_c201%6pn^@5&4q$wjov0n#w-umwha9fpb+1ef_lpli2n4'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '0') == '1'
+
+# SECURITY WARNING: keep the secret key used in production secret!
+# No hardcoded fallback: this file was previously committed with a real
+# secret key in plaintext. Set DJANGO_SECRET_KEY in the environment; in
+# DEBUG mode only, fall back to an obviously-fake local value.
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or (
+    'django-insecure-local-dev-only-do-not-use-in-production' if DEBUG else None
+)
+if not SECRET_KEY:
+    raise RuntimeError(
+        'DJANGO_SECRET_KEY environment variable must be set when DEBUG is off.'
+    )
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.234.193.247', 'api.thediversecandidate.com', 'thediversecandidate.com']
 
@@ -52,7 +61,7 @@ INSTALLED_APPS = [
 
 # SMMRY API PARAMS
 SMMRY_API_ENDPOINT = "https://api.smmry.com"
-SM_API_KEY = "545AF338C7"
+SM_API_KEY = os.environ.get('SMMRY_API_KEY', '')
 SM_LENGTH = 1 # No of sentences to summarize in
 SM_KEYWORD_COUNT = 5
 SM_URL = "" # url of webpage to summarize
@@ -116,11 +125,11 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'derrick.c6takndlw3wu.us-east-1.rds.amazonaws.com',
-	'PASSWORD': 'derrickpostgres123',
-        'PORT': '5432'
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 

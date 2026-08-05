@@ -4,18 +4,41 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## SECURITY WARNING — read before touching anything
 
-`django/derrick/derrick/settings.py` has a hardcoded Django `SECRET_KEY`, a
-Postgres `PASSWORD`, and an `SM_API_KEY` committed in plaintext. The API
-also issues a DRF auth token, and `django/derrick/README.MD` documents a
-plaintext admin username/password and that live token. **This repository is
-public.** Do not add further secrets to tracked files, do not copy these
-values into new files, and treat every credential currently in this repo as
-already compromised — if you're asked to work on auth/deployment here, move
-secrets to environment variables (there's a `SECRET_KEY` etc. pattern to
-follow from any standard `django-environ` setup) and flag to the user that
-the existing key/password/token need rotating, since editing them out of
-git history is a separate, deliberate operation this task shouldn't do
-silently.
+`django/derrick/derrick/settings.py` previously had a hardcoded Django
+`SECRET_KEY`, RDS Postgres host/user/`PASSWORD`, and an `SM_API_KEY`
+committed in plaintext, and `django/derrick/README.MD` documented a
+plaintext admin username/password and a live DRF auth token. **This
+repository is public**, so all of those values must be treated as
+permanently compromised even now that the code has been fixed — see
+"Secrets remediation status" below for exactly what is/isn't done.
+
+Do not add further secrets to tracked files, do not hardcode any new
+credential, and always read config from environment variables (see
+`django/derrick/.env.example` for the required var names) going forward.
+
+### Secrets remediation status
+
+Code fixed (this repo no longer contains the literal values): `SECRET_KEY`,
+`DB_PASSWORD`/`DB_HOST`/`DB_USER`, `SMMRY_API_KEY` now come from environment
+variables in `settings.py`, and `README.MD` no longer prints the admin
+password or a live token.
+
+**Still needs action outside this repo, by someone with infrastructure
+access** (an AI agent working in this checkout cannot do this — it requires
+AWS/Django-admin credentials this task was not given):
+- Rotate the RDS Postgres password for `derrick.c6takndlw3wu.us-east-1.rds.amazonaws.com`
+  and set the new value as `DB_PASSWORD` wherever the app actually runs.
+- Change the Django admin password for the `derrick` account.
+- Generate a fresh DRF auth token from the admin panel and delete the old
+  one (`...7dfd6`, also duplicated in the `ElasticSearchPOC` repo).
+- Rotate the SMMRY API key.
+- Set `DJANGO_SECRET_KEY` to a new random value in the deployed environment
+  (a leaked `SECRET_KEY` can forge session/password-reset tokens).
+- These values also still exist in this repo's **git history** even after
+  the latest commit removes them from the file contents — scrubbing history
+  (`git filter-repo` or a fresh repo) is a separate, deliberate action a
+  human should decide on, not something to do silently as a side effect of
+  an unrelated change.
 
 ## What this is
 
