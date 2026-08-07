@@ -42,7 +42,7 @@ AWS/Django-admin credentials this task was not given):
 
 ## What this is
 
-A Django 3.1 REST API (app name `derrick`, project root
+A Django 5.2 LTS REST API (app name `derrick`, project root
 `django/derrick/`) that crawls a fixed set of tech-news sites, stores
 scraped articles in Postgres, indexes them into Elasticsearch, and serves
 them through a keyword-search API. Originally deployed at
@@ -103,9 +103,12 @@ Celery task) if this pipeline is being hardened further.
   run it standalone -> paste the scrape function's output into `manage.py
   shell` via `exec(open(...).read())`). This is a manual, per-site process,
   not a generic scraper framework.
-- `cron_jobs/` — scheduled scraping entry points (`django-crontab` /
-  `django-background-tasks`), separate from the per-site crawler scripts
-  above.
+- `cron_jobs/` — `scraper.py`, the `django-crontab` entry point named by
+  the `CRONJOBS` setting. Separate from the per-site crawler scripts above,
+  and separate again from the Celery beat schedule (`CELERY_BEAT_SCHEDULE`
+  in settings, running the `api/tasks.py` tasks). Note `run_scraping_job()`
+  in here is still a stub that only prints — the real scheduled scraping
+  path is the Celery one.
 - `utilities/word_frequency.py` — `WordFrequency.get_frequent_words()`, a
   word-cloud generator used to populate `Article.wordcloud_words` /
   `wordcloud_scores`. Tokenizes with a plain regex + `wordcloud`'s stopword
@@ -135,6 +138,38 @@ Celery task) if this pipeline is being hardened further.
 
 ## Bugs fixed (2026-08 hardening pass)
 
+Found during the Django 5.2 upgrade — all four had been silently broken,
+none were caused by the upgrade itself:
+
+- **`custom_crawlers/datacenterfrontier/cron_job_homepage_scraper.py` was
+  not valid Python.** Two separate blocks mixed tab and space indentation,
+  producing a `TabError` at import. The DataCenterFrontier crawler could
+  never have run. Fixed; every `.py` in the project now parses cleanly
+  (worth re-checking with a syntax sweep if more crawler folders get
+  copy-pasted, since that's how this one likely happened).
+- **`api/tasks.py` could not import at all** — it used
+  `celery.task.schedules` and `celery.decorators.periodic_task`, both
+  removed in Celery 4, against a Celery 5 pin. Rewritten with
+  `@shared_task`, with the recurrence moved to `CELERY_BEAT_SCHEDULE`.
+- **Both scraper tasks shared the Celery task name `"scrape_datacenter"`**,
+  so registering the second silently overwrote the first — DataCenterKnowledge
+  would never have been scheduled even once the import was fixed. They now
+  use distinct (default, module-derived) names.
+- **No Celery setting was actually being applied.** `derrick/celery.py`
+  called `config_from_object('django.conf:settings')` with no
+  `namespace=`, so Celery 4+ looked for lowercase setting names that don't
+  exist here; `BROKER_URL` (the Celery 3 spelling) was ignored entirely and
+  the broker silently fell back to the default `amqp://localhost` rather
+  than the configured Redis. Fixed with `namespace='CELERY'` and renaming
+  `BROKER_URL` → `CELERY_BROKER_URL`. Both broker/backend now also read
+  from the environment. `CELERY_TIMEZONE` was `'Africa/Nairobi'` against a
+  Django `TIME_ZONE` of `'UTC'` — a 3-hour skew between scheduling and
+  timestamps, almost certainly an unintended copy-paste; now set to
+  `TIME_ZONE`. **If a non-UTC schedule was actually intended, change both
+  together.**
+
+Found in the earlier pass:
+
 - **`search_articles_by_keyword`** referenced `serializer` outside the
   `try` block; an Elasticsearch failure inside the `try` raised an
   unrelated `UnboundLocalError` (crash) instead of a clean error response.
@@ -155,27 +190,40 @@ Celery task) if this pipeline is being hardened further.
   while fixing the hardcoded-secrets issue. Fixed by registering
   `debug_toolbar.urls` under `__debug__/` when `DEBUG` is on.
 
-## Dependency remediation (2026-08)
+## Dependency remediation & the Django 5.2 upgrade (2026-08)
 
-`requirements.txt` would not even `pip install` under a modern pip
-(`django-elasticsearch-dsl==7.1.1` has non-standard, rejected metadata) --
-bumped to `7.4` (still targets the ES7 API this app uses). `pip-audit`
-against the original pins found 66 known CVEs across 12 packages; bumped
-the ones that don't require a Django major-version jump: `certifi`,
-`idna`, `urllib3`, `requests`, `Jinja2` + `MarkupSafe` (transitive-only,
-not imported by app code), `Pygments`, `soupsieve`, `sqlparse`, `gunicorn`,
-`Pillow`, and `djangorestframework` (bumped to `3.14.0`, the last version
-still compatible with `Django==3.1.14` — `3.15+` requires `Django>=4.2`).
+`requirements.txt` originally would not even `pip install` under a modern
+pip (`django-elasticsearch-dsl==7.1.1` ships non-standard, rejected
+metadata), and `pip-audit` found **66 known CVEs across 12 packages**.
+The stack has since been migrated off the EOL Django 3.1 line entirely:
 
-**Not fixed, and the single biggest remaining risk:** `Django==3.1.14`
-itself is long past EOL and has multiple unpatched CVEs whose fixes only
-ship in Django 4.2+/5.x. Reaching a fully patched Django requires a
-multi-major-version upgrade (3.1 -> at least 4.2 LTS), which also forces
-`djangorestframework` to 3.15+ and needs every other Django-coupled
-dependency (`django-cors-headers`, `django-crontab`, `django-silk`,
-`django-debug-toolbar`, `django-elasticsearch-dsl`, `django-background-tasks`)
-re-verified against the new Django version. That's a real migration, not a
-pin bump — it needs a proper test pass against live Postgres +
-Elasticsearch + Redis/Celery (none of which were assumed available when
-this pass was done) before landing on the production deployment, so it
-was deliberately left as a follow-up rather than done blind.
+**Now on Django 5.2.17 LTS** (supported to April 2028). Note 4.2 LTS was
+*also* EOL by the time this was done (April 2026), so 5.2 — not 4.2 — is
+the correct target if this is ever redone from scratch. `pip-audit`
+against the current pins reports **no known vulnerabilities**.
+
+Constraints that shaped the version choices, worth knowing before bumping
+anything further:
+
+- **Elasticsearch stays on the 7.x client** (`elasticsearch==7.17.13`,
+  `elasticsearch-dsl==7.4.1`, `django-elasticsearch-dsl==7.4`) because the
+  deployed ES *server* is 7.7.1 (see `docker-compose.yml` in the
+  `webscraper-React-FrontEnd` repo). Moving to the 8.x client line requires
+  upgrading that server first — a real infrastructure change, not a pin
+  bump. `elasticsearch==7.17.13` specifically is the version that relaxes
+  its `urllib3<2` pin on Python 3.10+, which is what allows `urllib3` to
+  reach a patched 2.x here at all.
+- **`django-background-tasks` was removed, not upgraded.** It was pinned at
+  1.2.5 (dead upstream, depends on the equally dead `django-compat`) and
+  blocked the Django upgrade outright. The only code using it —
+  `cron_jobs/tasks.py` and `cron_jobs/background_scraper.py` — consisted of
+  two demo stubs (`demo_task` logging a string, `notify_user` printing
+  "I ran!") that nothing anywhere called. Both files and the
+  `'background_task'` INSTALLED_APPS entry were deleted. If deferred
+  background work is wanted later, Celery is already wired up for it.
+- **`DEFAULT_AUTO_FIELD` is explicitly pinned to `AutoField`**, not Django
+  3.2+'s `BigAutoField` default. This is deliberate: it keeps the upgrade
+  from generating a migration that alters the primary key column type on
+  the existing production `articles` table. `manage.py makemigrations
+  --check` reports no changes, i.e. **this upgrade needs no schema
+  migration**. Switching to `BigAutoField` is a separate, deliberate call.

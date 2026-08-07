@@ -157,8 +157,8 @@ def scraper_datacenter():
     # If it doesn't, add it to the DB
 
     print("="*50)
-	print("Total items : {}".format(len(items)))
-	print("="*50)
+    print("Total items : {}".format(len(items)))
+    print("="*50)
 
     for item in items:
         article_title = item['title']
@@ -193,4 +193,4 @@ def scraper_datacenter():
                             list_of_keywords=list_of_keywords
                             )
         else:
-			print("URL : {} already exists in DB".format(article_url))
+            print("URL : {} already exists in DB".format(article_url))

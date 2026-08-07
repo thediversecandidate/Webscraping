@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crontab',
-    'background_task',
     'api',
     'rest_framework',
     'rest_framework.authtoken',
@@ -162,9 +163,13 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+
+# Explicitly pinned to AutoField (not Django 3.2+'s BigAutoField default)
+# so the upgrade to Django 5.2 does NOT generate a migration altering the
+# primary key column type on the existing production `articles` table.
+# Switching to BigAutoField later is a deliberate, separate migration.
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -178,12 +183,34 @@ CRONJOBS = [
 ]
 
 # CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# All Celery settings must carry the CELERY_ prefix: derrick/celery.py uses
+# config_from_object(..., namespace='CELERY'), which is what makes Celery 4+
+# pick these up at all. `BROKER_URL` (the Celery 3 name, unprefixed) was
+# silently ignored under Celery 5 -- the broker fell back to the default
+# amqp://localhost rather than this Redis instance.
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
+# Was 'Africa/Nairobi' while Django's TIME_ZONE above is 'UTC' -- a 3-hour
+# offset between when beat scheduled tasks and when the app timestamped
+# their results. Aligned to Django's TIME_ZONE; change both together if a
+# different scheduling timezone is actually wanted.
+CELERY_TIMEZONE = TIME_ZONE
+
+# Beat schedule. Celery 4 removed @periodic_task (the decorator api/tasks.py
+# used), so recurring work is registered here instead of at the task.
+CELERY_BEAT_SCHEDULE = {
+    'scrape-datacenterknowledge-every-6h': {
+        'task': 'api.tasks.run_datacenterknowledge_scraper',
+        'schedule': crontab(minute=0, hour='*/6'),
+    },
+    'scrape-datacenterfrontier-every-6h': {
+        'task': 'api.tasks.run_datacenterfrontier_scraper',
+        'schedule': crontab(minute=30, hour='*/6'),
+    },
+}
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

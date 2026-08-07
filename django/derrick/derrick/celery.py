@@ -9,7 +9,11 @@ app = Celery('derrick')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
-app.config_from_object('django.conf:settings')
+# namespace='CELERY' means only settings prefixed CELERY_ are read, with the
+# prefix stripped and lowercased (CELERY_BROKER_URL -> broker_url). Without
+# it, Celery 4+ looks for lowercase setting names this Django settings
+# module never defined, so none of the Celery config was actually applied.
+app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 

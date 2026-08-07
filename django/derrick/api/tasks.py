@@ -1,5 +1,4 @@
-from celery.task.schedules import crontab
-from celery.decorators import periodic_task
+from celery import shared_task
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
@@ -10,39 +9,23 @@ from custom_crawlers.datacenterknowledge.cron_job_homepage_scraper import scrape
 # DataCenterFrontier
 from custom_crawlers.datacenterfrontier.cron_job_homepage_scraper import scraper_datacenter as datacenterfrontier_scraper
 
-@periodic_task(
-    run_every=(crontab(minute=0, hour='*/6')),
-    name="scrape_datacenter",
-    ignore_result=True
-)
+
+# Celery 4 removed @periodic_task; the recurring schedule for these lives in
+# CELERY_BEAT_SCHEDULE in derrick/settings.py instead. Both tasks previously
+# shared the name "scrape_datacenter", so registering the second one silently
+# overwrote the first -- datacenterknowledge never ran. They now have
+# distinct names (the defaults derived from their module + function path).
+@shared_task(ignore_result=True)
 def run_datacenterknowledge_scraper():
-    """
-    Runs the scraper
-    """
-
-    # DataCenterKnowledge
+    """Scrape the DataCenterKnowledge homepage."""
+    logger.info("DataCenterKnowledge scrape started.")
     datacenterknowledge_scraper()
+    logger.info("DataCenterKnowledge scrape finished.")
 
-@periodic_task(
-    run_every=(crontab(minute=0, hour='*/6')),
-    name="scrape_datacenter",
-    ignore_result=True
-)
+
+@shared_task(ignore_result=True)
 def run_datacenterfrontier_scraper():
-    """
-    Runs the scraper
-    """
-    
-    # DataCenterFrontier
+    """Scrape the DataCenterFrontier homepage."""
+    logger.info("DataCenterFrontier scrape started.")
     datacenterfrontier_scraper()
-
-    logger.info("Scraping task started...")
-
-
-@periodic_task(
-    run_every=(crontab()),
-    name="heartbeat",
-    ignore_result=True
-)
-def celery_heartbeat():
-    logger.info("Heartbeat sent.")
+    logger.info("DataCenterFrontier scrape finished.")
