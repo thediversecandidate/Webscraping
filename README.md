@@ -1,3 +1,72 @@
+# Web Scraping Backend API
+
+**Django REST API backend for The Diverse Candidate web scraping platform**
+
+[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-3.1.14-green.svg)](https://www.djangoproject.com/)
+[![Django REST Framework](https://img.shields.io/badge/DRF-3.11.2-red.svg)](https://www.django-rest-framework.org/)
+[![Status](https://img.shields.io/badge/Status-Working-success.svg)](STATUS.md)
+
+> 📋 **Quick Answer**: Yes, this software is working! It's a Django REST API backend. The frontend is in a [separate repository](https://github.com/thediversecandidate/webscraper-React-FrontEnd).
+> 
+> 📖 **See [SUMMARY.md](SUMMARY.md) for complete analysis results.**
+
+## Quick Links
+
+- 📋 **[SUMMARY.md](SUMMARY.md)** - **START HERE** - Analysis results answering the key questions
+- 📊 **[STATUS.md](STATUS.md)** - Is this software working? What does it do?
+- 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and component relationships
+- ❓ **[FAQ.md](FAQ.md)** - Frequently asked questions
+- 📖 **[Django App README](django/derrick/README.MD)** - Detailed setup and usage instructions
+- 🔗 **[Frontend Repository](https://github.com/thediversecandidate/webscraper-React-FrontEnd)** - React frontend that consumes this API
+
+## What is this?
+
+This repository contains a **Django REST API backend** that:
+- ✅ Scrapes technology and data center news articles from multiple websites
+- ✅ Stores articles in PostgreSQL with Elasticsearch indexing
+- ✅ Provides REST API endpoints for searching and retrieving articles
+- ✅ Serves as the backend for the [React frontend application](https://github.com/thediversecandidate/webscraper-React-FrontEnd)
+- ✅ Generates word frequency data for word cloud visualizations
+
+## Quick Start
+
+```bash
+# Check system status and dependencies
+python3 check_status.py
+
+# Setup virtual environment and install dependencies
+./setup.sh
+
+# Navigate to Django project
+cd django/derrick
+
+# Run migrations
+python manage.py migrate
+
+# Run the development server
+python manage.py runserver 0.0.0.0:80
+```
+
+## API Endpoints
+
+- `GET /` - Health check
+- `GET /articles/page/<page_num>/` - Get paginated articles (requires auth)
+- `GET /articles/keyword/<keyword>` - Search articles (requires auth)
+- `GET /articles/search/<keyword>/<first>/<no_of_results>/<sort_by>` - Advanced search (requires auth)
+- `GET /admin/` - Django admin dashboard
+
+**Authentication**: Token-based (add `Authorization: Token <token>` header)
+
+## Documentation
+
+For detailed information, see:
+- **[STATUS.md](STATUS.md)** - Software status and functionality overview
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture diagrams and data flow
+- **[django/derrick/README.MD](django/derrick/README.MD)** - Complete setup and usage guide
+
+---
+
 # A Guide to Ethical Web Scraping
 
 Jami @ EmpiricalDecember 02, 2019
